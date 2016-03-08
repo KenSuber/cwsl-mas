@@ -60,7 +60,7 @@ configuration.nologger = True
 
 # Set verbosenessLevel to 1 or 2 to enable dumping of non-critical warnings
 # and information messages to stderr.
-# configuration.verbosenessLevel = 1 # 2
+configuration.verbosenessLevel = 0		# 0 = WARNING, 1 = INFO, 2 = DEBUG
 
 ##############################################################################
 # VisTrails packages.
@@ -126,6 +126,35 @@ def testHook():
 # Uncomment this line to install the startup hook
 # addStartupHook(testHook)
 
+def setLoggingConfigHook():
+    print "setLoggingConfigHook:  starting ..."
+    import logging.config
+    import os
+    from cwsl.configuration import configuration
+
+    if 'configuration' in locals():
+        print "setLoggingConfigHook:  type(configuration) = %s" % type(configuration)
+        # print "setLoggingConfigHook:  configuration = %s" % configuration
+    else:
+        print "setLoggingConfigHook:  BUG; 'configuration' variable does not exist"
+
+
+    config_file = os.path.join(os.environ['HOME'], '.vistrails', 'logging.cfg')		# format is ConfigParser
+    if os.path.exists(config_file):
+        print "setLoggingConfigHook:  set logging config from %s" % config_file
+        try:
+            logging.config.fileConfig(config_file, defaults=None, disable_existing_loggers=False)
+        except Exception as e:
+            msg = "error getting logging config from %s; abort\nexception = %s" % (config_file, e)
+            print "setLoggingConfigHook:  " + msg
+            # raise Exception(msg)		# don't use sys.exit; VisTrails GUI just disappears!
+            raise
+    else:
+        print "setLoggingConfigHook:  logging config file %s does not exist; use default logging" % config_file
+
+    print "setLoggingConfigHook:  done"
+
+addStartupHook(setLoggingConfigHook)
 
 ##############################################################################
 # If you have an appropriate Qt license, you can install signal inspectors,
