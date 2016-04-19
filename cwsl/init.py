@@ -48,6 +48,10 @@ from cwsl.vt_modules.vt_fldcor import FieldCorrelation
 from cwsl.vt_modules.vt_timcor import TemporalCorrelation
 from cwsl.vt_modules.imageviewer import ImageViewerPanel
 from cwsl.vt_modules.cmip5_constraints import CMIP5Constraints
+from cwsl.vt_modules.cmip5_constraints_gui import CMIP5Constraints_GUI
+from cwsl.vt_modules.message_box_gui import Message_Box_GUI
+from cwsl.vt_modules.example_gui import Example_GUI
+from cwsl.vt_modules.constraints_conversion import ConstraintsConversion
 from cwsl.vt_modules.sdm_extract import SDMDataExtract
 from cwsl.vt_modules.cod_dataset import ChangeOfDate
 from cwsl.vt_modules.json_extract import ExtractTimeseries
@@ -132,6 +136,14 @@ def initialize(*args, **keywords):
     reg.add_module(ConstraintBuilder, name='Constraint Builder',
                    namespace='Utilities')
     reg.add_module(CMIP5Constraints, name='CMIP5 Constraints',
+                   namespace='Utilities')
+    reg.add_module(CMIP5Constraints_GUI, name='CMIP5 Constraints GUI',
+                   namespace='Utilities')
+    reg.add_module(Message_Box_GUI, name='Message Box GUI',
+                   namespace='Utilities')
+    reg.add_module(Example_GUI, name='Example GUI',
+                   namespace='Utilities')
+    reg.add_module(ConstraintsConversion, name='Constraints Conversion',
                    namespace='Utilities')
     reg.add_module(XmlToNc, name='Crop',
                    namespace='Utilities')
