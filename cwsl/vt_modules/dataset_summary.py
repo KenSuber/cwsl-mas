@@ -41,7 +41,7 @@ class DatasetSummary(vistrails_module.Module):
         cons_list = ["<li>name: {}".format(constraint.key) + " values: {}</li>".format(str(constraint.values))
                      for constraint in in_dataset.constraints]
 
-        file_header = "<h3>Files in DataSet:</h3><ul>"
+        file_header = "<h3>%s Files in DataSet:</h3><ul>" % len(list(in_dataset.files))		# use list(), because in_dataset.files may be a generator
 
         file_list = ["<li>{}</li>".format(meta.full_path)
                      for meta in in_dataset.files]
