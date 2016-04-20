@@ -290,22 +290,27 @@ class ParameterWidget(QtGui.QFrame):
 
         buttonClear = MyPushButton("Clear", verbose=verbose)
         buttonClear.clicked.connect(self.clear)
+        buttonClear.setToolTip("Clear all choices for this parameter")
         layout.addWidget(buttonClear, alignment=QtCore.Qt.AlignBottom)
         self.buttonClear = buttonClear
         sizing('buttonClear', buttonClear)
 
         buttonAll = MyPushButton("All", verbose=verbose)
         buttonAll.clicked.connect(self.all)
+        buttonAll.setToolTip("Select all choices for this parameter")
         layout.addWidget(buttonAll, alignment=QtCore.Qt.AlignBottom)
         self.buttonAll = buttonAll
         sizing('buttonAll', buttonAll)
 
         if last:
             buttonNextLabel = "File Count ..."
+            tooltip = "Show the number of files that match the constraints"
         else:
             buttonNextLabel = "Next"
+            tooltip = "Display choices for the next parameter"
         buttonNext = MyPushButton(buttonNextLabel, verbose=verbose)
         buttonNext.clicked.connect(partial(self.next, last=last, verbose=verbose))
+        buttonNext.setToolTip(tooltip)
         layout.addWidget(buttonNext, alignment=QtCore.Qt.AlignBottom)
         self.buttonNext = buttonNext
         sizing('buttonNext', buttonNext)
@@ -425,9 +430,11 @@ class DataSelection(QtGui.QWidget):
 
         resetButton = QtGui.QPushButton("Reset", sizePolicy=mainButtonSizePolicy)
         resetButton.clicked.connect(partial(self.reset, verbose=verbose))
+        resetButton.setToolTip("Clear all the selections")
 
         doneButton = QtGui.QPushButton("Done", sizePolicy=mainButtonSizePolicy)
         doneButton.clicked.connect(partial(self.done, verbose=verbose))
+        doneButton.setToolTip("Exit the widget")
 
         self.setWindowTitle('Title:  Data Selection Widget')
 
