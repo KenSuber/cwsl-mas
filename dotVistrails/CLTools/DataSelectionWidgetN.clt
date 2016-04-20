@@ -1,0 +1,5 @@
+{
+    "command": "/home/599/kds599/CWSL_DEV/cwsl-mas/DataSelectionWrapperN.py", 
+    "args": [], 
+    "stdout": ["constraint_string", "string", {"required": ""}]
+}
