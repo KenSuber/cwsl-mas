@@ -23,6 +23,7 @@ from textwrap import dedent
 import tempfile
 import subprocess
 import logging
+from vistrails.core.modules import vistrails_module
 
 log = logging.getLogger('cwsl.core.scheduler')
 
@@ -127,11 +128,14 @@ class SimpleJob(Job):
 
             args = ['sh', script_name]
 
+            #VERBOSE = os.getenv("VERBOSE")
+            #log.debug("SimpleJob.submit():  VERBOSE = '%s'" % VERBOSE)
+
             try:
                 output = subprocess.check_output(args, stderr=subprocess.STDOUT)
             except subprocess.CalledProcessError, e:
                 output = e.output
-                raise
+                raise vistrails_module.ModuleError(self, output)		# we want the stderr
             finally:
                 # For now, print output to console as well.
                 print(output)
@@ -218,6 +222,7 @@ class SimpleExecManager(AbstractExecManager):
 
 
         """
+        # log.debug("SimpleExecManager.submit():  SimpleExecManager.submit() ...")
         self.job.submit(noexec=self.noexec)
 
     def add_dep(self, task, dep):
