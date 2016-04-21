@@ -183,6 +183,7 @@ class ChoicesWidget(QtGui.QScrollArea):
         gb = QtGui.QGroupBox("Choices:", styleSheet="background: yellow")
         gb.setAlignment(QtCore.Qt.AlignRight)		# this seems to be ignored!
         gb.setFlat(True)		# this seems to have no effect
+        gb.setToolTip("Choose at least one item for the '%s' parameter" % name)
         gbLayout = QtGui.QVBoxLayout(spacing=2)		# holds CheckBox buttons for one parameter
         gbLayout.setContentsMargins(1, 1, 1, 1)
         gb.setLayout(gbLayout)
@@ -441,7 +442,7 @@ class DataSelection(QtGui.QWidget):
         self.setWindowModality(QtCore.Qt.WindowModal)
 
         title1 = "The Data Selection Widget:  make selections for each parameter from left to right, clicking 'Next' to move to the next parameter."
-	title2 = "After making the selection for the last parameter, click 'File Count ...' to show how many files would match the constraints."
+	title2 = "After making the selection for the last parameter, you may click 'File Count ...' to show how many files would match the constraints."
 	title3 = "Click 'Reset' to start over; click 'Done' to exit the widget."
         title = QtGui.QLabel("%s\n%s\n%s" % (title1, title2, title3), alignment=QtCore.Qt.AlignHCenter)
         headerLayout.addWidget(title)
