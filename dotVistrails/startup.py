@@ -127,32 +127,34 @@ def testHook():
 # addStartupHook(testHook)
 
 def setLoggingConfigHook():
-    print "setLoggingConfigHook:  starting ..."
+    #print "setLoggingConfigHook:  starting ..."
     import logging.config
     import os
     from cwsl.configuration import configuration
 
     if 'configuration' in locals():
-        print "setLoggingConfigHook:  type(configuration) = %s" % type(configuration)
+        #print "setLoggingConfigHook:  type(configuration) = %s" % type(configuration)
         # print "setLoggingConfigHook:  configuration = %s" % configuration
+        pass
     else:
         print "setLoggingConfigHook:  BUG; 'configuration' variable does not exist"
 
 
     config_file = os.path.join(os.environ['HOME'], '.vistrails', 'logging.cfg')		# format is ConfigParser
     if os.path.exists(config_file):
-        print "setLoggingConfigHook:  set logging config from %s" % config_file
+        #print "setLoggingConfigHook:  set logging config from %s" % config_file
         try:
             logging.config.fileConfig(config_file, defaults=None, disable_existing_loggers=False)
         except Exception as e:
             msg = "error getting logging config from %s; abort\nexception = %s" % (config_file, e)
-            print "setLoggingConfigHook:  " + msg
+            #print "setLoggingConfigHook:  " + msg
             # raise Exception(msg)		# don't use sys.exit; VisTrails GUI just disappears!
             raise
     else:
-        print "setLoggingConfigHook:  logging config file %s does not exist; use default logging" % config_file
+        #print "setLoggingConfigHook:  logging config file %s does not exist; use default logging" % config_file
+        pass
 
-    print "setLoggingConfigHook:  done"
+    #print "setLoggingConfigHook:  done"
 
 addStartupHook(setLoggingConfigHook)
 
