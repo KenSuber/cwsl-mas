@@ -231,6 +231,7 @@ class ChoicesWidget(QtGui.QScrollArea):
         return self.choice_buttons
 
     def clearAll(self):
+        #print 'ChoicesWidget.clearAll:  %s ...' % self.name
         buttons = self.getButtons()
         for choice in buttons.keys():
             #print 'uncheck %s ...' % choice
@@ -330,7 +331,7 @@ class ParameterWidget(QtGui.QFrame):
     """
 
     def setChoices(self, choices, verbose=False):
-        if verbose:  print 'setChoices:  choices = %s' % choices
+        if verbose:  print 'setChoices:  %s choices = %s' % (self.name, choices)
         if verbose:  print 'setChoices:  children = %s' % self.children()
         for child in self.children():
             if type(child) == ChoicesWidget:
@@ -433,6 +434,10 @@ class DataSelection(QtGui.QWidget):
         resetButton.clicked.connect(partial(self.reset, verbose=verbose))
         resetButton.setToolTip("Clear all the selections")
 
+        cancelButton = QtGui.QPushButton("Cancel", sizePolicy=mainButtonSizePolicy)
+        cancelButton.clicked.connect(partial(self.cancel, verbose=verbose))
+        cancelButton.setToolTip("Cancel the widget")
+
         doneButton = QtGui.QPushButton("Done", sizePolicy=mainButtonSizePolicy)
         doneButton.clicked.connect(partial(self.done, verbose=verbose))
         doneButton.setToolTip("Exit the widget")
@@ -455,6 +460,7 @@ class DataSelection(QtGui.QWidget):
         footerLayout.addWidget(hiddenLabel)		# wide
         footerLayout.addWidget(self.num_files_widget)
         footerLayout.addWidget(resetButton)		# small, to right
+        footerLayout.addWidget(cancelButton)		# small, to right
         footerLayout.addWidget(doneButton)		# small, to right
         sizing('doneButton', doneButton)
 
@@ -515,16 +521,27 @@ class DataSelection(QtGui.QWidget):
 
     # Reset the widget:  all choices disappear except the first
     def reset(self, verbose=False):
-        parameterWidget = self.parameterWidgets.values()[0]
+        name0 = self.parameterWidgets.keys()[0]
+        parameterWidget = self.parameterWidgets[name0]
         choices = getChoices(self.drstree_base, [], self, verbose=verbose)
-        if verbose:  print 'reset:  choices = %s' % choices
+        if verbose:  print 'reset:  (%s) choices = %s' % (name0, choices)
         parameterWidget.clearAll()
         for parameterName in self.parameterWidgets.keys()[1:]:
             parameterWidget = self.parameterWidgets[parameterName]
+            parameterWidget.clearAll()
             parameterWidget.setChoices([], verbose=verbose)
             parameterWidget.buttonClear.hide()
             parameterWidget.buttonAll.hide()
             parameterWidget.buttonNext.hide()
+
+        if verbose:  print 'reset:  ConstraintString = "%s"' % self.getConstraintString()
+
+    def cancel(self, verbose=False):
+        # print 'cancel ...'
+        self.reset(verbose=verbose)
+        self.result = OrderedDict()
+        self.setNumFiles(0)		# number of NC files
+        self.close()
 
     def done(self, verbose=False):
         # print 'done ...'
