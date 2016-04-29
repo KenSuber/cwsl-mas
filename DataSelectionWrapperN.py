@@ -18,10 +18,10 @@ def main():
     (constraintString, num_files) = dsMain()
 
     #print 'constraintString = "%s"' % constraintString
-    print constraintString		# the output of this function; used by the CLTools wrapper as an "stdout" output port
-    return num_files			# the result of this function
+    return (constraintString, num_files)			# the result of this function
 
 if __name__ == '__main__':
-    num_files = main()
+    (constraintString, num_files) = main()
+    print constraintString		# the output of this function; used by the CLTools wrapper as an "stdout" output port
     sys.exit(num_files)			# automatically used by the CLTools wrapper, as the "return_code" output port
 
